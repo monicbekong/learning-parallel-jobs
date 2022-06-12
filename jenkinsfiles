@@ -1,0 +1,31 @@
+pipeline{
+	agent any 
+		stages{
+			stage('version control'){
+				steps{
+					git checkout
+				}
+			}
+			stage('parallel job'){
+				parallel{
+					stage('sub job1'){
+						steps{
+							sh uptime
+							sh lscpu
+						}
+					}
+					stage('sub job2'){
+						steps{
+							sh df -h
+							sh du -h
+						}
+					}
+				}
+			}
+			stage('codebuild'){
+				steps{
+					sh free -m
+					sh cat/etc/passwd
+				}
+			}
+		}
